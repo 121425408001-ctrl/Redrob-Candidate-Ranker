@@ -1,0 +1,64 @@
+team_name: "EZ"
+
+primary_contact:
+  name: "Mohammed Zain Ul Abedeen"
+  email: "zedtown7@gmail.com"
+  phone: "+91-8885431885"
+
+team_members:
+  - name: "Mohammed Zain Ul Abedeen"
+    email: "zedtown7@gmail.com"
+    role: "ML Engineer & Full Stack Developer"
+  - name: "Emmanuel Raj"
+    email: "emmanuelraj050907@gmail.com"
+    role: "Research & Presentation"
+
+github_repo: "https://github.com/121425408001-ctrl/Redrob-Candidate-Ranker"
+
+sandbox_link: "https://colab.research.google.com/github/121425408001-ctrl/Redrob-Candidate-Ranker/blob/main/demo.ipynb"
+
+reproduce_command: "python rank.py"
+
+compute:
+  platform: "Local Windows Laptop"
+  cpu_cores: 16
+  ram_gb: 64
+  python_version: "3.14.0"
+  os: "Windows 11 25H2"
+  uses_gpu_for_inference: false
+  has_network_during_ranking: false
+  pre_computation_required: true
+  pre_computation_time_minutes: 40
+
+ai_tools_used:
+  - "Claude"
+
+ai_usage_summary: |
+  Used Claude for architectural discussion, code review, and understanding
+  technical concepts during development. All scoring logic, weights, rules,
+  and design decisions were reasoned through and verified against the actual
+  dataset by the team. No candidate data was fed to any external LLM.
+  The ranking system itself makes zero LLM calls — it runs fully offline
+  using a local sentence-transformer model (all-MiniLM-L6-v2).
+
+methodology_summary: |
+  Hybrid AI ranking system combining semantic embeddings with rule-based JD
+  signal scoring and platform behavioral data.
+
+  Phase 1 (precompute, one-time): Each candidate career narrative is encoded
+  into a 384-dimensional meaning vector using all-MiniLM-L6-v2. The JD is
+  encoded the same way. Vectors saved to disk; never recomputed at ranking time.
+
+  Phase 2 (ranking, under 2 minutes): Every candidate passes through 5 layers:
+  (1) Honeypot filter — cross-checks internal consistency of dates, durations,
+  and skill proficiency claims. 59 candidates excluded.
+  (2) Must-have matching — checks 4 JD-required categories in both skill tags
+  and free-text career descriptions, weighted by endorsements and usage months.
+  (3) Semantic similarity — cosine similarity between candidate and JD vectors
+  via matrix multiply. Catches candidates who never used the exact buzzwords
+  but built the right systems.
+  (4) Behavioral signals — recency, recruiter response rate, open-to-work flag.
+  (5) Penalty multipliers — non-India location, consulting-only career, stale
+  title with no hands-on NLP evidence, long notice period.
+
+  Runtime: 11.5 seconds. Zero network calls. CPU-only.
