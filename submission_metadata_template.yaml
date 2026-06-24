@@ -22,7 +22,7 @@ reproduce_command: "python rank.py"
 compute:
   platform: "Local Windows Laptop"
   cpu_cores: 16
-  ram_gb: 64
+  ram_gb: 16
   python_version: "3.14.0"
   os: "Windows 11 25H2"
   uses_gpu_for_inference: false
